@@ -1,1 +1,0 @@
-# Faiz-Z_Tech-Task
