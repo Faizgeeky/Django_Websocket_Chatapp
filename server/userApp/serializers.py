@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User , Interest
+from .models import User , Interest, Messages
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -32,3 +32,9 @@ class InterestSerializer(serializers.ModelSerializer):
         if data['sender'] == data['receiver']:
             raise serializers.ValidationError("You cannot send interest to yourself.")
         return data
+    
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Messages
+        fields = ['id', 'sender','reciever', 'message']

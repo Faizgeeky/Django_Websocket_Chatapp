@@ -2,11 +2,12 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
-from .serializers import UserSerializer, UserListSerializer , InterestSerializer
+from rest_framework import generics, permissions
+from .serializers import UserSerializer, UserListSerializer , InterestSerializer, MessageSerializer
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
-from .models import User, Interest
+from .models import User, Interest, Messages
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 @api_view(['GET'])
@@ -122,8 +123,15 @@ class RejectInterestView(APIView):
         return Response({"detail": "Interest rejected."})
 
 
-# 8. if accept inreset 
-# 9. send message
+# 8. send message
+class MessageListView(generics.ListAPIView):
+    serializer_class = MessageSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Messages.objects.filter(receiver=user)
 
 
-#10. get all messages 
+
+#9. get all messages 
