@@ -5,6 +5,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Login from './pages/login';
 import Signup from './pages/signup';
+import Chat from './pages/chat';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -12,8 +13,10 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/">
-          <Route index element={<Login />} />
+          <Route path='login' element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="chat" element={<Chat />} />
+
           
         </Route>
       </Routes>

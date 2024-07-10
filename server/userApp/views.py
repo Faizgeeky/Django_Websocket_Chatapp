@@ -31,7 +31,10 @@ class SignupView(APIView):
 
 #2. Login 
 class LoginView(APIView):
+    permission_classes = [AllowAny] 
+    # print(req)
     def post(self, request):
+        print("data is here", request.data.get('username'))
         username = request.data.get('username')
         password = request.data.get('password')
         user = authenticate(username=username, password=password)
@@ -50,7 +53,7 @@ class AuthenticatedUserView(APIView):
     permission_classes = [AllowAny] 
 
 
-    def post(self, request):
+    def get(self, request):
         users = User.objects.all()
         serializer = UserListSerializer(users, many=True)
         return Response(serializer.data)

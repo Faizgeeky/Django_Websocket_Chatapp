@@ -1,5 +1,15 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 function Signup() {
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user)
+    // if (user && user.accessToken) {
+    //     // return { Authorization: 'Bearer ' + user.accessToken };
+    //     return { "x-auth-token": user.accessToken };
+    // } else {
+    //     return {};
+    // }
+
     return (
         <div className="Signup">
             <section class="vh-100" styleclass="background-color: #eee;">

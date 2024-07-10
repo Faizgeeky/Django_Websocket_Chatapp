@@ -1,5 +1,31 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import AuthService from '../services/auth.service'
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+            await AuthService.login(username, password).then(
+                () => {
+                    console.log(localStorage.user);
+                    navigate("/chat");
+                    window.location.reload();
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <div className="App">
             <section class="vh-100" styleclass="background-color: #eee;">
@@ -13,12 +39,12 @@ function Login() {
 
                                             <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Login</p>
 
-                                            <form class="mx-1 mx-md-4">
+                                            <form class="mx-1 mx-md-4" onSubmit={handleLogin}>
 
                                                 <div class="d-flex flex-row align-items-center mb-4">
                                                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                                        <input type="text" id="form3Example1c" class="form-control" />
+                                                        <input type="text" id="form3Example1c" class="form-control" onChange={(e) => setUsername(e.target.value)} />
                                                         <label class="form-label" for="form3Example1c">Username</label>
                                                     </div>
                                                 </div>
@@ -26,12 +52,12 @@ function Login() {
                                                 <div class="d-flex flex-row align-items-center mb-4">
                                                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                                     <div data-mdb-input-init class="form-outline flex-fill mb-0">
-                                                        <input type="password" id="form3Example4c" class="form-control" />
+                                                        <input type="password" id="form3Example4c" class="form-control" onChange={(e) => setPassword(e.target.value)} />
                                                         <label class="form-label" for="form3Example4c">Password</label>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
+                                                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
                                                 </div>
 
                                             </form>
