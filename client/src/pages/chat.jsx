@@ -1,145 +1,351 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import React, { useEffect, useState, useRef } from 'react';
+// import AuthGuard from '../services/AuthGuard';
+// import axios from 'axios';
+
+// function Chat({ roomName }) {
+//     const [users, setUsers] = useState([]);
+//     const [messages, setMessages] = useState([]);
+//     const [message, setMessage] = useState('');
+//     const [selectedUser, setSelectedUser] = useState(null);
+//     const [chatSocket, setChatSocket] = useState(null);
+//     // const accessToken = localStorage.user.access;
+//     const socket = useRef(null);
+
+//     const storedData = localStorage.getItem('user');
+
+//     // Parse the JSON string into an object
+//     const userData = JSON.parse(storedData);
+
+//     // Access the 'access' property
+//     const accessToken = userData.access;
+
+//     useEffect(() => {
+//         // Fetch users
+//         const fetchUsers = async () => {
+//             try {
+//                 const response = await axios.get('http://127.0.0.1:8000/api/users/', {
+//                     headers: {
+//                         Authorization: `Bearer ${accessToken}`,
+//                     },
+//                 });
+//                 setUsers(response.data);
+//             } catch (error) {
+//                 console.error('Error fetching users:', error);
+//             }
+//         };
+
+//         fetchUsers();
+
+//         // Initialize WebSocket
+//         const initWebSocket = () => {
+//             const ws = new WebSocket(`ws://localhost:8000/ws/chat/`);
+
+//             ws.onopen = () => {
+//                 console.log('WebSocket connection opened');
+//                 setChatSocket(ws);
+//             };
+
+//             ws.onmessage = (e) => {
+//                 const data = JSON.parse(e.data);
+//                 console.log("Messages happend", data)
+//                 setMessages((prevMessages) => [...prevMessages, data.message]);
+//             };
+
+//             ws.onclose = () => {
+//                 console.log('Chat socket closed unexpectedly');
+//             };
+
+//             ws.onerror = (error) => {
+//                 console.error('WebSocket error observed:', error);
+//             };
+
+//             socket.current = ws;
+//         };
+
+//         initWebSocket();
+
+//         return () => {
+//             if (socket.current) {
+//                 socket.current.close();
+//             }
+//         };
+//     }, [accessToken]);
+
+//     const handleUserClick = (user) => {
+//         setSelectedUser(user);
+//         // Optionally, you can load previous messages between selectedUser and current user
+//         // For now, just setting the selected user is demonstrated
+//     };
+
+//     const sendMessage = (e) => {
+//         e.preventDefault();
+//         console.log("sending message to ", selectedUser.id, message, accessToken)
+//         if (chatSocket && message.trim() !== '') {
+//             chatSocket.send(
+//                 JSON.stringify({
+//                     message: message,
+//                     receiver: selectedUser.id, // Assuming selectedUser has an `id` property
+//                     sender: accessToken,
+//                 })
+//             );
+//             setMessage('');
+//         }
+//     };
+
+//     return (
+//         <div className="container py-5">
+//             <div className="row">
+//                 {/* Members List */}
+//                 <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+//                     <h5 className="font-weight-bold mb-3 text-center text-lg-start">Members</h5>
+//                     {users.map((user) => (
+//                         <div className="card mb-2" key={user.id} onClick={() => handleUserClick(user)}>
+//                             <div className="card-body">
+//                                 <ul className="list-unstyled mb-0">
+//                                     <li className="p-2 border-bottom bg-body-tertiary">
+//                                         <a href="#!" className="d-flex justify-content-between">
+//                                             <div className="d-flex flex-row">
+//                                                 <div className="pt-1">
+//                                                     <p className="fw-bold mb-0">{user.username}</p>
+//                                                     <p className="small text-muted">{user.email}</p>
+//                                                 </div>
+//                                             </div>
+//                                         </a>
+//                                     </li>
+//                                 </ul>
+//                             </div>
+//                         </div>
+//                     ))}
+//                 </div>
+
+//                 {/* Chat Box */}
+//                 <div className="col-md-6 col-lg-7 col-xl-8 bg-warning rounded">
+//                     <ul className="list-unstyled">
+//                         {/* Display Messages */}
+//                         {messages.map((msg, index) => (
+//                             <li className="d-flex justify-content-between mb-4" key={index}>
+//                                 <div className="card w-100">
+//                                     <div className="card-header d-flex justify-content-between p-3">
+//                                         <p className="fw-bold mb-0">{msg.sender}</p>
+//                                         <p className="text-muted small mb-0">
+//                                             <i className="far fa-clock"></i> {msg.timestamp}
+//                                         </p>
+//                                     </div>
+//                                     <div className="card-body">
+//                                         <p className="mb-0">{msg.message}</p>
+//                                     </div>
+//                                 </div>
+//                             </li>
+//                         ))}
+
+//                         {/* Message Input */}
+//                         <li className="bg-white mb-3">
+//                             <div className="form-outline">
+//                                 <textarea
+//                                     className="form-control bg-body-tertiary"
+//                                     id="textAreaExample2"
+//                                     rows="4"
+//                                     value={message}
+//                                     onChange={(e) => setMessage(e.target.value)}
+//                                 ></textarea>
+//                                 <label className="form-label" htmlFor="textAreaExample2">
+//                                     Message
+//                                 </label>
+//                             </div>
+//                         </li>
+
+//                         {/* Send Button */}
+//                         <button
+//                             type="button"
+//                             className="btn btn-info btn-rounded float-end"
+//                             onClick={sendMessage}
+//                         >
+//                             Send
+//                         </button>
+//                     </ul>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+
+// export default AuthGuard(Chat);
+
+import React, { useEffect, useState, useRef } from 'react';
 import AuthGuard from '../services/AuthGuard';
-import { useEffect } from 'react';
 import axios from 'axios';
-import { useState } from 'react';
 
-function Chat() {
+function Chat({ roomName }) {
+    const [users, setUsers] = useState([]);
+    const [messages, setMessages] = useState([]);
+    const [message, setMessage] = useState('');
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [chatSocket, setChatSocket] = useState(null);
+    const socket = useRef(null);
 
-    const [users , setUsers] = useState([])
+    const storedData = localStorage.getItem('user');
+    const userData = JSON.parse(storedData);
+    const accessToken = userData.access;
 
     useEffect(() => {
-        const fetchData = async () => {
-            const accessToken = localStorage.user.access;
-            console.log(accessToken);
+        const fetchUsers = async () => {
             try {
-                const response = await axios.get(
-                    'http://127.0.0.1:8000/api/users/',
-                    {},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                );
-                setUsers(response.data)
-                console.log("response is here?",response.data); // Handle the response data here
+                const response = await axios.get('http://127.0.0.1:8000/api/users/', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setUsers(response.data);
             } catch (error) {
-                console.error('Error fetching data:', error);
-                // Handle error
+                console.error('Error fetching users:', error);
             }
         };
 
-        fetchData();
-    }, []); 
+        fetchUsers();
 
-  return (
-    <div>
-              <div class="container py-5">
+        const initWebSocket = () => {
+            const ws = new WebSocket(`ws://localhost:8000/ws/chat/`);
 
-                  <div class="row">
+            ws.onopen = () => {
+                console.log('WebSocket connection opened');
+                setChatSocket(ws);
+            };
 
-                      <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+            ws.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+                console.log("Messages happened", data);
+                setMessages((prevMessages) => [...prevMessages, data.message]);
+            };
 
-                          <h5 class="font-weight-bold mb-3 text-center text-lg-start">Member</h5>
-                      
-                        {users.map((user) => (
-                            <div className="card" key={user.id}>
-                                <div className="card-body">
-                                    <ul className="list-unstyled mb-0">
-                                        <li className="p-2 border-bottom bg-body-tertiary">
-                                            <a href="#!" className="d-flex justify-content-between">
-                                                <div className="d-flex flex-row">
-                                                    {/* <img
-                                                        src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-8.webp"
-                                                        alt="avatar"
-                                                        className="rounded-circle d-flex align-self-center me-3 shadow-1-strong"
-                                                        width="60"
-                                                    /> */}
-                                                    <div className="pt-1">
-                                                        <p className="fw-bold mb-0">{user.username}</p>
-                                                        <p className="small text-muted">{user.email}</p>
-                                                    </div>
+            ws.onclose = () => {
+                console.log('Chat socket closed unexpectedly');
+            };
+
+            ws.onerror = (error) => {
+                console.error('WebSocket error observed:', error);
+            };
+
+            socket.current = ws;
+        };
+
+        initWebSocket();
+
+        return () => {
+            if (socket.current) {
+                socket.current.close();
+            }
+        };
+    }, [accessToken]);
+
+    const handleUserClick = (user) => {
+        setSelectedUser(user);
+        // Fetch message history between selectedUser.id and current user
+        fetchMessageHistory(user.id);
+    };
+
+    const fetchMessageHistory = async (receiverId) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/messages/${receiverId}/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            console.log("data dfor messages", response.data)
+            setMessages(response.data);
+        } catch (error) {
+            console.error('Error fetching message history:', error);
+        }
+    };
+
+    const sendMessage = (e) => {
+        e.preventDefault();
+        if (chatSocket && message.trim() !== '') {
+            chatSocket.send(
+                JSON.stringify({
+                    message: message,
+                    receiver: selectedUser.id, // Assuming selectedUser has an `id` property
+                    sender: accessToken,
+                })
+            );
+            setMessage('');
+        }
+    };
+
+    return (
+        <div className="container py-5">
+            <div className="row">
+                {/* Members List */}
+                <div className="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0">
+                    <h5 className="font-weight-bold mb-3 text-center text-lg-start">Members</h5>
+                    {users.map((user) => (
+                        <div className="card mb-2" key={user.id} onClick={() => handleUserClick(user)}>
+                            <div className="card-body">
+                                <ul className="list-unstyled mb-0">
+                                    <li className="p-2 border-bottom bg-body-tertiary">
+                                        <a href="#!" className="d-flex justify-content-between">
+                                            <div className="d-flex flex-row">
+                                                <div className="pt-1">
+                                                    <p className="fw-bold mb-0">{user.username}</p>
+                                                    <p className="small text-muted">{user.email}</p>
                                                 </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Chat Box */}
+                <div className="col-md-6 col-lg-7 col-xl-8 bg-warning rounded">
+                    <ul className="list-unstyled">
+                        {/* Display Messages */}
+                        {messages.map((msg, index) => (
+                            <li className="d-flex justify-content-between mb-4" key={index}>
+                                <div className="card w-100">
+                                    <div className="card-header d-flex justify-content-between p-3">
+                                        <p className="fw-bold mb-0">{msg.sender}</p>
+                                        <p className="text-muted small mb-0">
+                                            <i className="far fa-clock"></i> {msg.timestamp}
+                                        </p>
+                                    </div>
+                                    <div className="card-body">
+                                        <p className="mb-0">{msg.message}</p>
+                                    </div>
+                                </div>
+                            </li>
                         ))}
 
-                          
+                        {/* Message Input */}
+                        <li className="bg-white mb-3">
+                            <div className="form-outline">
+                                <textarea
+                                    className="form-control bg-body-tertiary"
+                                    id="textAreaExample2"
+                                    rows="4"
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                ></textarea>
+                                <label className="form-label" htmlFor="textAreaExample2">
+                                    Message
+                                </label>
+                            </div>
+                        </li>
 
-                      </div>
-
-                      <div class="col-md-6 col-lg-7 col-xl-8">
-
-                          <ul class="list-unstyled">
-                              <li class="d-flex justify-content-between mb-4">
-                                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
-                                      class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60"/>
-                                      <div class="card">
-                                          <div class="card-header d-flex justify-content-between p-3">
-                                              <p class="fw-bold mb-0">Brad Pitt</p>
-                                              <p class="text-muted small mb-0"><i class="far fa-clock"></i> 12 mins ago</p>
-                                          </div>
-                                          <div class="card-body">
-                                              <p class="mb-0">
-                                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                                  labore et dolore magna aliqua.
-                                              </p>
-                                          </div>
-                                      </div>
-                              </li>
-                              <li class="d-flex justify-content-between mb-4">
-                                  <div class="card w-100">
-                                      <div class="card-header d-flex justify-content-between p-3">
-                                          <p class="fw-bold mb-0">Lara Croft</p>
-                                          <p class="text-muted small mb-0"><i class="far fa-clock"></i> 13 mins ago</p>
-                                      </div>
-                                      <div class="card-body">
-                                          <p class="mb-0">
-                                              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                                              laudantium.
-                                          </p>
-                                      </div>
-                                  </div>
-                                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
-                                      class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60"/>
-                              </li>
-                              <li class="d-flex justify-content-between mb-4">
-                                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
-                                      class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60"/>
-                                      <div class="card">
-                                          <div class="card-header d-flex justify-content-between p-3">
-                                              <p class="fw-bold mb-0">Brad Pitt</p>
-                                              <p class="text-muted small mb-0"><i class="far fa-clock"></i> 10 mins ago</p>
-                                          </div>
-                                          <div class="card-body">
-                                              <p class="mb-0">
-                                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                                                  labore et dolore magna aliqua.
-                                              </p>
-                                          </div>
-                                      </div>
-                              </li>
-                              <li class="bg-white mb-3">
-                                  <div data-mdb-input-init class="form-outline">
-                                      <textarea class="form-control bg-body-tertiary" id="textAreaExample2" rows="4"></textarea>
-                                      <label class="form-label" for="textAreaExample2">Message</label>
-                                  </div>
-                              </li>
-                              <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-info btn-rounded float-end">Send</button>
-                          </ul>
-
-                      </div>
-
-                  </div>
-
-              </div>
-    </div>
-  )
+                        {/* Send Button */}
+                        <button
+                            type="button"
+                            className="btn btn-info btn-rounded float-end"
+                            onClick={sendMessage}
+                        >
+                            Send
+                        </button>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    );
 }
 
-export default AuthGuard(Chat)
+export default AuthGuard(Chat);

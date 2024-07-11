@@ -110,6 +110,7 @@ class AcceptInterestView(APIView):
         interest.status = 'accepted'
         interest.save()
         return Response({"detail": "Interest accepted."})
+
 # 7. reject intrest
 class RejectInterestView(APIView):
     permission_classes = [IsAuthenticated]
@@ -127,13 +128,66 @@ class RejectInterestView(APIView):
 
 
 # 8. send message
-class MessageListView(generics.ListAPIView):
+# class MessageListCreateView(generics.ListCreateAPIView):
+#     queryset = Messages.objects.all()
+#     serializer_class = MessageSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def get_queryset(self,request):
+#         reciever_id = self.kwargs['id']
+
+#         try:
+#             receiver = User.objects.get(id=reciever_id)
+#         except User.DoesNotExist:
+#             return Response({"detail": "Receiver not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+#         return Messages.objects.filter(sender = request.user ,receiver=receiver).order_by('timestamp')
+
+class MessageListCreateView(generics.ListCreateAPIView):
     serializer_class = MessageSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return Messages.objects.filter(receiver=user)
+        receiver_id = self.kwargs['id']
+        
+        try:
+            receiver = User.objects.get(id=receiver_id)
+        except User.DoesNotExist:
+            return Messages.objects.none()  # Return an empty queryset if receiver is not found
+        print("lookgin for reciver ", receiver, self.request.user)
+        # Filter messages where the sender is the current authenticated user and the receiver is `receiver`
+        data = Messages.objects.filter(sender=self.request.user, receiver=receiver)
+        print("Data we have us ", data)
+        return data
+
+    def perform_create(self, serializer):
+        receiver_id = self.kwargs['id']
+
+        try:
+            receiver = User.objects.get(id=receiver_id)
+        except User.DoesNotExist:
+            return Response({"detail": "Receiver not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer.save(sender=self.request.user, receiver=receiver)
+# class MessageListView(APIView):
+#     serializer_class = MessageSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+#     def get(self, request):
+#         user = self.request.user
+#         return Messages.objects.filter(receiver=user)
+    
+#     def post(self, request):
+#         user =  self.request.user
+#         reciever = request.data.get('sender_id')
+#         message = request.data.get('message')
+#         try:
+        
+#         except:
+#             return Response({"detail": "Interest not found or not authorized."}, status=status.HTTP_404_NOT_FOUND)
+
+
+    
 
 
 

@@ -18,4 +18,7 @@ urlpatterns = [
     path('accept-interest/', views.AcceptInterestView.as_view(), name='accept-interest'),
     path('reject-interest/', views.RejectInterestView.as_view(), name='reject-interest'),
 
+    # chat
+     path('messages/', views.MessageListCreateView.as_view(), name='message-list-create'),
+     path('messages/<int:id>/',views.MessageListCreateView.as_view(), name='messha-list')
 ]
