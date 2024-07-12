@@ -22,11 +22,30 @@ class UserListSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username','email']
 
+class UserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','username', 'email']
 
 class InterestSerializer(serializers.ModelSerializer):
+    sender = UserDataSerializer() 
+    receiver = UserDataSerializer()
     class Meta:
         model = Interest
-        fields = ['id', 'sender', 'receiver', 'status', 'created_at']
+        fields = [ 'sender', 'receiver', 'status']
+
+    def validate(self, data):
+        if data['sender'] == data['receiver']:
+            raise serializers.ValidationError("You cannot send interest to yourself.")
+        return data
+
+
+
+class InterestAddSerializer(serializers.ModelSerializer):
+    # sender = UserDataSerializer() 
+    class Meta:
+        model = Interest
+        fields = [ 'id','sender', 'receiver', 'status','created_at']
 
     def validate(self, data):
         if data['sender'] == data['receiver']:

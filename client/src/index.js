@@ -8,6 +8,7 @@ import Signup from './pages/signup';
 import Chat from './pages/chat';
 import ChatRoom from './pages/chatRoom';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Dashboard from './pages/dashboard';
 
 export default function App() {
   return (
@@ -18,6 +19,8 @@ export default function App() {
           <Route path="signup" element={<Signup />} />
           <Route path="chat" element={<Chat />} />
           <Route path="chat-room" element={<ChatRoom />} />
+          <Route path='dashboard' element={<Dashboard />} />
+
 
 
           

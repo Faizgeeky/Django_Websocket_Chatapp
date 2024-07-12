@@ -132,7 +132,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             raise AuthenticationFailed('access_token expired')
         except jwt.InvalidTokenError:
             raise AuthenticationFailed('Invalid token')
-        # user = get_user(user_id,)
+        
         print("User id is", user_id)
         # Generate room name based on both user IDs
         self.room_group_name = self.get_room_name(user_id, recipient_id)

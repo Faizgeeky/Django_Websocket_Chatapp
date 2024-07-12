@@ -14,7 +14,7 @@ function Login() {
             await AuthService.login(username, password).then(
                 () => {
                     console.log(localStorage.user);
-                    navigate("/chat");
+                    navigate("/dashboard");
                     window.location.reload();
                 },
                 (error) => {
@@ -57,7 +57,7 @@ function Login() {
                                                     </div>
                                                 </div>
                                                 <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
+                                                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Login</button>
                                                 </div>
 
                                             </form>

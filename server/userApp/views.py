@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import Serializer
 from rest_framework import generics, permissions
-from .serializers import UserSerializer, UserListSerializer , InterestSerializer, MessageSerializer
+from .serializers import UserSerializer, UserListSerializer , InterestSerializer, MessageSerializer, InterestAddSerializer
 from rest_framework.views import APIView
 from rest_framework import status
 from django.contrib.auth import authenticate
@@ -47,6 +47,9 @@ class LoginView(APIView):
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
+                'usename': str(username),
+                'user_id' : user.id,
+                'email': user.email
             })
         return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -79,24 +82,41 @@ class SendInterestView(APIView):
         if request.user.id == receiver_id:
             return Response({"detail": "You cannot send interest to yourself."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Create interest
         interest_data = {
             'sender': request.user.id,
             'receiver': receiver_id,
             'status': 'pending'
         }
-        serializer = InterestSerializer(data=interest_data)
+
+        print("Interest data?", interest_data)
+        existing_interest = Interest.objects.filter(
+            sender=request.user.id,
+            receiver=receiver_id,
+            # status='pending'
+        ).first()
+
+        if existing_interest:
+            # Serialize existing interest data and return it
+            serializer = InterestAddSerializer(existing_interest)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        # If no existing interest, create a new one
+        serializer = InterestAddSerializer(data=interest_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("Serializer errors:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # 5. recieved intrest 
 class RecievedInterestView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        interests = Interest.objects.filter(receiver = request.user)
+        interests = Interest.objects.filter( Q(receiver=request.user) | 
+            Q(sender=request.user))
+        
         serializer = InterestSerializer(interests, many=True)
         return Response(serializer.data)
 
@@ -105,24 +125,41 @@ class AcceptInterestView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self,request):
-        interest_id = request.data.get('interest_id')
+        interest_id = request.data.get('user_id')
         try:
-            interest = Interest.objects.get(id=interest_id, receiver=request.user, status='pending')
+            interest = Interest.objects.get(sender=interest_id, receiver=request.user, status='pending')
         except Interest.DoesNotExist:
             return Response({"detail": "Interest not found or not authorized."}, status=status.HTTP_404_NOT_FOUND)
         
         interest.status = 'accepted'
         interest.save()
         return Response({"detail": "Interest accepted."})
+    
+    def get(self, request):
+        # sender_id = request.query_params.get('sender')
+        # receiver_id = request.query_params.get('receiver')
+
+
+        try:
+            interests = Interest.objects.filter(
+            Q(sender=self.request.user, status = 'accepted') | 
+            Q( receiver=self.request.user, status = 'accepted') 
+        )
+        except Interest.DoesNotExist:
+            return Response({"detail": "Interest not found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = InterestSerializer(interests, many=True)
+        return Response(serializer.data)
+        # return Response(interest)
 
 # 7. reject intrest
 class RejectInterestView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self,request):
-        interest_id = request.data.get('interest_id')
+        interest_id = request.data.get('user_id')
         try:
-            interest = Interest.objects.get(id=interest_id, receiver=request.user, status='pending')
+            interest = Interest.objects.get(sender=interest_id, receiver=request.user, status='pending')
         except Interest.DoesNotExist:
             return Response({"detail": "Interest not found or not authorized."}, status=status.HTTP_404_NOT_FOUND)
         
