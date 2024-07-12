@@ -71,5 +71,5 @@ This project uses Django Rest Framework (DRF) APIs and Django Channels to build 
 
 ### Postman Collection
 
-A `collection.json` file is included for easy testing of the API endpoints with Postman. Simply import this file into Postman to get started.
+A `ZTECH TASK API.postman_collection.json` file is included for easy testing of the API endpoints with Postman. Simply import this file into Postman to get started.
 

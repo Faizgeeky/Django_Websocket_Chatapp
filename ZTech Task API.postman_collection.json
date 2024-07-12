@@ -1,0 +1,249 @@
+{
+	"info": {
+		"_postman_id": "8596b301-2364-4350-a014-0d43e8a6f73c",
+		"name": "ZTech Task API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34034144"
+	},
+	"item": [
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"Suarez\",\n    \"email\":\"saurez@mail.com\",\n    \"password\":\"Hello@123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/signup/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"signup",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    // \"email\":\"a@a.com\",\n    \"password\":\"Hello@123\",\n    \"username\":\"Suarez\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of all users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwNzA0NjQ0LCJpYXQiOjE3MjA3MDEwNDQsImp0aSI6ImQ1ZWRiZTYzMDBhZTQ4MzNiZDUwNGIzNjg2N2Q4NWQyIiwidXNlcl9pZCI6NH0.WlzadKf7Xu4Vox2Hub4OYvxc6eSEwVUds3sMCmqCad4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/users/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Interest",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwNzA0NjQ0LCJpYXQiOjE3MjA3MDEwNDQsImp0aSI6ImQ1ZWRiZTYzMDBhZTQ4MzNiZDUwNGIzNjg2N2Q4NWQyIiwidXNlcl9pZCI6NH0.WlzadKf7Xu4Vox2Hub4OYvxc6eSEwVUds3sMCmqCad4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"receiver\" : 5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/send-interest/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"send-interest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ReciecedInterests",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwNzA0NjkxLCJpYXQiOjE3MjA3MDEwOTEsImp0aSI6ImQ4NzkyNzhmZDdiZjRlZTA4N2UzYTA5MmI4Mjk5ZDA0IiwidXNlcl9pZCI6NX0.EoxBcRq-uYSWX1vOQXq2I09fWjXXKktk-RhT6OrOdJM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/recieved-interest/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"recieved-interest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accept Interest",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIwNzY5Njc2LCJpYXQiOjE3MjA3NjYwNzYsImp0aSI6IjlhMjM3YWYzNzk5MjQ5OGY4YmZlYjg2NjAxMWZlYmJiIiwidXNlcl9pZCI6NH0.jjq62dBpjB4H5yGi_PsIcQFr9NI7KhoQm9ckJAPniFg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"interest_id\":5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/accept-interest/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"accept-interest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reject Interest",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
