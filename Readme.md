@@ -52,7 +52,10 @@ cd Faiz-Z_Tech-Task
 
 Watch the demonstration video below to see the application in action:
 
-[Download Demo Video](https://github.com/Faizgeeky/Faiz-Z_Tech-Task/raw/main/demo.mp4)
+<video width="640" height="360" controls>
+  <source src="https://github.com/Faizgeeky/Faiz-Z_Tech-Task/raw/main/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ### How the Application Works
 
