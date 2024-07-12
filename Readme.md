@@ -1,7 +1,20 @@
-```markdown
+
 # Faiz-Z Tech Task
 
-This repository contains a Django WebSocket server and a React client for a real-time chat application.
+## This repository contains a Django WebSocket server and a React client for a real-time chat application.
+
+
+
+### Demonstration Video
+
+Watch the demonstration video below to see the application in action:
+
+<video width="640" height="360" controls>
+  <source src="https://github.com/Faizgeeky/Faiz-Z_Tech-Task/raw/main/demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
 
 ## Setup Instructions
 
@@ -47,15 +60,6 @@ cd Faiz-Z_Tech-Task
     ```sh
     npm start
     ```
-
-### Demonstration Video
-
-Watch the demonstration video below to see the application in action:
-
-<video width="640" height="360" controls>
-  <source src="https://github.com/Faizgeeky/Faiz-Z_Tech-Task/raw/main/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 ### How the Application Works
 
