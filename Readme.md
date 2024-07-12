@@ -3,6 +3,13 @@
 
 ### This repository contains a Django WebSocket server and a React client for a real-time chat application.
 
+###  Features
+
+- **Authentication**: Users can log in using JWT (JSON Web Tokens) for secure authentication.
+- **Send Interest**: Users can send interest requests to other users.
+- **Accept/Reject Interest**: Users can accept or reject interest requests.
+- **Real-time Chat**: Users can chat in real time with users who have accepted their interest.
+- **Dashboard**: View and manage pending and accepted users from a dashboard.
 
 
 ### Demonstration Video
@@ -12,11 +19,6 @@
 
 https://github.com/user-attachments/assets/3f52e550-260a-413d-a181-5efa7d5f4dc8
 
-
-<video width="640" height="360" controls>
-  <source src="https://github.com/Faizgeeky/Faiz-Z_Tech-Task/raw/main/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 
 
