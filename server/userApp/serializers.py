@@ -37,4 +37,4 @@ class InterestSerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Messages
-        fields = ['id', 'sender','reciever', 'message']
+        fields = ['id', 'sender','receiver', 'message']

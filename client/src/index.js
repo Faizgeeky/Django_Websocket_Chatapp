@@ -17,7 +17,7 @@ export default function App() {
           <Route path='login' element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="chat" element={<Chat />} />
-          <Route path="chat-room" element={<ChatRoom roomName="myRoomName" />} />
+          <Route path="chat-room" element={<ChatRoom />} />
 
 
           

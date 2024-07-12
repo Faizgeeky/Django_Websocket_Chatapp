@@ -10,6 +10,10 @@ from django.contrib.auth import authenticate
 from .models import User, Interest, Messages
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import Q
+from rest_framework.authtoken.models import Token
+
+
 @api_view(['GET'])
 def index(request):
     return Response("API's Floating")
@@ -156,8 +160,13 @@ class MessageListCreateView(generics.ListCreateAPIView):
             return Messages.objects.none()  # Return an empty queryset if receiver is not found
         print("lookgin for reciver ", receiver, self.request.user)
         # Filter messages where the sender is the current authenticated user and the receiver is `receiver`
-        data = Messages.objects.filter(sender=self.request.user, receiver=receiver)
-        print("Data we have us ", data)
+        # data = Messages.objects.filter(sender=self.request.user, receiver=receiver)
+        # print("Data we have us ", data)
+
+        data =  Messages.objects.filter(
+            Q(sender=self.request.user, receiver=receiver) | 
+            Q(sender=receiver, receiver=self.request.user)
+        )
         return data
 
     def perform_create(self, serializer):
@@ -169,6 +178,19 @@ class MessageListCreateView(generics.ListCreateAPIView):
             return Response({"detail": "Receiver not found."}, status=status.HTTP_404_NOT_FOUND)
 
         serializer.save(sender=self.request.user, receiver=receiver)
+    
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            return Response({"message": "Successfully logged out."}, status=status.HTTP_200_OK)
+        except Token.DoesNotExist:
+            return Response({"error": "Token not found."}, status=status.HTTP_400_BAD_REQUEST)
+
 # class MessageListView(APIView):
 #     serializer_class = MessageSerializer
 #     permission_classes = [permissions.IsAuthenticated]
