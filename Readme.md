@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/3f52e550-260a-413d-a181-5efa7d5f4dc8
 To get started, clone the repository to your local machine:
 
 ```sh
-git clone https://github.com/Faizgeeky/Faiz-Z_Tech-Task.git
+git clone https://github.com/Faizgeeky/Django_RealTime_ChatApp.git
 cd Faiz-Z_Tech-Task
 ```
 
@@ -73,5 +73,5 @@ This project uses Django Rest Framework (DRF) APIs and Django Channels to build 
 
 ### Postman Collection
 
-A `ZTECH TASK API.postman_collection.json` file is included for easy testing of the API endpoints with Postman. Simply import this file into Postman to get started.
+A `API.postman_collection.json` file is included for easy testing of the API endpoints with Postman. Simply import this file into Postman to get started.
 
