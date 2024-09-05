@@ -1,6 +1,6 @@
 
-# Django-Realtime-Chat-APP 
-## Django realtime chat web application using Websocket
+# Django-React-Realtime-Chat-APP 
+ Django -React realtime chat web application using Websocket
 
 ### This repository contains a Django WebSocket server and a React client for a real-time chat application.
 
