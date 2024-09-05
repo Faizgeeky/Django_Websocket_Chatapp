@@ -1,5 +1,6 @@
 
-# Faiz-Z Tech Task
+# Django-Realtime-Chat-APP 
+## Django realtime chat web application using Websocket
 
 ### This repository contains a Django WebSocket server and a React client for a real-time chat application.
 
